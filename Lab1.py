@@ -94,34 +94,31 @@ def fibonacci(n):
 
 def fibonacci_search(a, b, epsilon):
     if epsilon == 0:
-        fib_lst = fibonacci(math.ceil((b - a)))
-        n = len(fib_lst) - 1
-        x1 = a + (fib_lst[n - 2] / fib_lst[n]) * (b - a)
-        x2 = a + (fib_lst[n - 1] / fib_lst[n]) * (b - a)
-        y1 = f(x1)
-        y2 = f(x2)
-        return (y1 + y2) / 2
+        return 0
     fib_lst = fibonacci(math.ceil((b - a) / epsilon))
     n = len(fib_lst) - 1
-    x1 = a + (fib_lst[n-2] / fib_lst[n]) * (b - a)
-    x2 = a + (fib_lst[n-1] / fib_lst[n]) * (b - a)
+    x1 = a + (fib_lst[n-1] / fib_lst[n]) * (b - a)
+    x2 = b - (fib_lst[n-1] / fib_lst[n]) * (b - a)
     y1 = f(x1)
     y2 = f(x2)
 
-    for k in range(1, n - 1):
-        if y1 < y2:
-            b = x2
-            x2 = x1
-            y2 = y1
-            x1 = a + (fib_lst[n - k - 2] / fib_lst[n - k]) * (b - a)
-            y1 = f(x1)
-        else:
-            a = x1
+    while n > 2:
+        if y1 > y2:
+            b = x1
             x1 = x2
             y1 = y2
-            x2 = a + (fib_lst[n - k - 1] / fib_lst[n - k]) * (b - a)
+            L = b - a
+            x2 = b - (fib_lst[n - 2] / fib_lst[n - 1]) * L
             y2 = f(x2)
-    return (y1 + y2)/2
+        else:
+            a = x2
+            x2 = x1
+            y2 = y1
+            L = b - a
+            x1 = a + (fib_lst[n - 2] / fib_lst[n - 1]) * L
+            y1 = f(x1)
+        n = n - 1
+    return min(y1, y2)
 def the_purpose_of_the_work():
     st.title("Цель работы")
     st.write("Изучение и анализ поисковых алгоритмов минимизациифункции одной переменной: дихотомического, Фибоначчи и «золотого сечения».")
